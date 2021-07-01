@@ -5,8 +5,8 @@ class Program
 {
   static void Main(string[] args)
   {
-    Create_Task("VNU", 1);
-    Delete_Task("VNU");
+    Create_Task("Task Name", 1, new DateTime(2000, 01, 01, 12, 00, 00));
+    Delete_Task("Task Name");
   }
    
   private void Delete_Task(string taskName)
@@ -29,10 +29,10 @@ class Program
       }
   }
 
-  private void Create_Task(string taskName, short daysInterval)
+  private void Create_Task(string taskName, short daysInterval, DateTime time)
   {
-      var scriptPath = @"caminho do executável aqui";
-      var description = "Execução planejada de script para tratamento de VNUs.";
+      var scriptPath = @"script.exe";
+      var description = "Description of task here.";
 
       // Get the service on the local machine
       using (TaskService ts = new TaskService())
@@ -42,7 +42,7 @@ class Program
           td.RegistrationInfo.Description = description;
 
           var today = DateTime.Now;
-          var specTime = new DateTime(today.Year, today.Month, today.Day, 12, 00, 00);
+          var specTime = new DateTime(today.Year, today.Month, today.Day, time.Hour, time.Minute, time.Second);
 
           // Create a trigger that will fire the task at this time every other day
           td.Triggers.Add(new DailyTrigger { 
